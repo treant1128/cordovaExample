@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,84 +18,76 @@ public class PushMessageReceiver extends BroadcastReceiver {
 	public static final String TAG = PushMessageReceiver.class.getSimpleName();
 
 	AlertDialog.Builder builder;
-
-	/**
-	 * 
-	 * 
-	 * @param context
-	 *            Context
-	 * @param intent
-	 *            接收的intent
-	 */
+	
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 
-		Log.d(TAG, ">>> Receive intent: \r\n" + intent);
+		Log.d("11", "-"+intent.getExtras().getString(PushConstants.EXTRA_ACCESS_TOKEN));
+		Log.d("22", "-"+intent.getExtras().getString(PushConstants.EXTRA_API_KEY));
+		Log.d("33", "-"+intent.getExtras().getString(PushConstants.EXTRA_APP));
+		Log.d("44", "-"+intent.getExtras().getString(PushConstants.EXTRA_APP_ID));
+		Log.d("55", "-"+intent.getExtras().getString(PushConstants.EXTRA_BIND_NAME));
+		Log.d("66", "-"+intent.getExtras().getString(PushConstants.EXTRA_BIND_STATUS));
+		Log.d("77", "-"+intent.getExtras().getString(PushConstants.EXTRA_CB_URL));
+		Log.d("88", "-"+intent.getExtras().getString(PushConstants.EXTRA_CONTENT));
+		Log.d("99", "-"+intent.getExtras().getString(PushConstants.EXTRA_ERROR_CODE));
+		Log.d("10", "-"+intent.getExtras().getString(PushConstants.EXTRA_FETCH_NUM));
+		Log.d("111", "-"+intent.getExtras().getString(PushConstants.EXTRA_FETCH_TYPE));
+		Log.d("112", "-"+intent.getExtras().getString(PushConstants.EXTRA_GID));
+		Log.d("113", "-"+intent.getExtras().getString(PushConstants.EXTRA_GROUP_FETCH_NUM));
+		Log.d("114", "-"+intent.getExtras().getString(PushConstants.EXTRA_GROUP_FETCH_TYPE));
+		Log.d("115", "-"+intent.getExtras().getString(PushConstants.EXTRA_HASHCODE));
+		Log.d("116", "-"+intent.getExtras().getString(PushConstants.EXTRA_METHOD));
+		Log.d("117", "-"+intent.getExtras().getString(PushConstants.EXTRA_MSG));
+		Log.d("118", "-"+intent.getExtras().getString(PushConstants.EXTRA_MSG_IDS));
+		Log.d("119", "-"+intent.getExtras().getString(PushConstants.EXTRA_MSG_KEY));
+		Log.d("1111", "-"+intent.getExtras().getString(PushConstants.EXTRA_MSGID));
+		Log.d("1112", "-"+intent.getExtras().getString(PushConstants.EXTRA_NOTIFICATION_CONTENT));
+		Log.d("1113", "-"+intent.getExtras().getString(PushConstants.EXTRA_NOTIFICATION_TITLE));
+		
+		Log.d("1114", "-"+intent.getExtras().getString(PushConstants.EXTRA_OPENTYPE));
+		Log.d("1115", "-"+intent.getExtras().getString(PushConstants.EXTRA_PUSH_MESSAGE));
+		Log.d("1116", "-"+intent.getExtras().getString(PushConstants.EXTRA_PUSH_MESSAGE_STRING));
+		Log.d("1117", "-"+intent.getExtras().getString(PushConstants.EXTRA_TAGS));
+		Log.d("1118", "-"+intent.getExtras().getString(PushConstants.EXTRA_TIMESTAMP));
+	//	Log.d("1119", "-"+intent.getExtras().getString(PushConstants.));
+		
+		//返回内容
+		final String content2 = new String(
+				intent.getByteArrayExtra(PushConstants.EXTRA_CONTENT));
+		Log.e("Content","~~"+content2);
+		//Log.d("LLLLLLLLLLLLLLLLLLLLLL",intent.);
+		//Log.d(TAG, ">>> Receive intent: \r\n" + intent);
 
-		if (intent.getAction().equals(PushConstants.ACTION_MESSAGE)) {
-			//获取消息内容
-			String message = intent.getExtras().getString(
-					PushConstants.EXTRA_PUSH_MESSAGE_STRING);
-
-			//用户自定义内容读取方式，CUSTOM_KEY值和管理界面发送时填写的key对应
-			//String customContentString = intent.getExtras().getString(CUSTOM_KEY);
-			Log.i(TAG, "onMessage: " + message);
-
-			//用户在此自定义处理消息,以下代码为demo界面展示用
-//			Intent responseIntent = null;
-//			responseIntent = new Intent(PushDemoActivity.ACTION_MESSAGE);
-//			responseIntent.putExtra(PushDemoActivity.EXTRA_MESSAGE, message);
-//			responseIntent.setClass(context, PushDemoActivity.class);
-//			responseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			context.startActivity(responseIntent);
-
-		//处理绑定等方法的返回数据
-		//注:PushManager.startWork()的返回值通过PushConstants.METHOD_BIND得到
-		} else if (intent.getAction().equals(PushConstants.ACTION_RECEIVE)) {
-			//获取方法
-			final String method = intent
-					.getStringExtra(PushConstants.EXTRA_METHOD);
-			//方法返回错误码,您需要恰当处理。比如，方法为bind时，若失败，需要重新bind,即重新调用startWork
-			final int errorCode = intent
-					.getIntExtra(PushConstants.EXTRA_ERROR_CODE,
-							PushConstants.ERROR_SUCCESS);
+		Log.d("LLLLLLLLLLLLLLLLLLLLLL", intent.getAction());
+			if (intent.getAction().equals(PushConstants.ACTION_RECEIVE)) {
 			//返回内容
-			final String content = new String(
-					intent.getByteArrayExtra(PushConstants.EXTRA_CONTENT));
-			
-			//用户在此自定义处理消息,以下代码为demo界面展示用
-			
-			Log.d(TAG, "onMessage: method 方法: " + method);
-			Log.d(TAG, "onMessage: result 结果: " + errorCode);
-			Log.d(TAG, "onMessage: content 内容: " + content);
-			Toast.makeText(
-					context,
-					"method : " + method + "\n result: " + errorCode
-							+ "\n content = " + content, Toast.LENGTH_SHORT)
-					.show();
-
-//			Intent responseIntent = null;
-//			responseIntent = new Intent(PushDemoActivity.ACTION_RESPONSE);
-//			responseIntent.putExtra(PushDemoActivity.RESPONSE_METHOD, method);
-//			responseIntent.putExtra(PushDemoActivity.RESPONSE_ERRCODE,
-//					errorCode);
-//			responseIntent.putExtra(PushDemoActivity.RESPONSE_CONTENT, content);
-//			responseIntent.setClass(context, PushDemoActivity.class);
-//			responseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			context.startActivity(responseIntent);
+//			String content1 = intent.getExtras().getString(PushConstants.ACTION_RECEIVER_NOTIFICATION_CLICK);
+//			Log.d("aaaaaaaaaaaaaa", "onMessage: content 内容: " + content1);
+//			String content2 = intent.getExtras().getString(PushConstants.EXTRA_NOTIFICATION_CONTENT);
+//			Log.d("BBBBBBBBBBBBBBB", "onMessage: content 内容: " + content2);
+//			String content3 = intent.getExtras().getString(PushConstants.EXTRA_PUSH_MESSAGE);
+//			Log.d("CCCCCCCCCCCCCCCC", "onMessage: content 内容: " + content3);
 			
 		//可选。通知用户点击事件处理
-		} else if (intent.getAction().equals(
+		}
+		if (intent.getAction().equals(PushConstants.ACTION_MESSAGE)) {
+			
+			//用户在此自定义处理消息,以下代码为demo界面展示用
+			String message = intent.getExtras().getString(
+					PushConstants.EXTRA_PUSH_MESSAGE_STRING);
+			Log.i("LLLLLLLLLLLLLLLLLLLLLL", "onMessage: " + message);
+		} 
+		else if (intent.getAction().equals(
 				PushConstants.ACTION_RECEIVER_NOTIFICATION_CLICK)) {
-			Log.d(TAG, "intent内容uri=" + intent.toUri(0));
+			Log.d(TAG, "336699" + "abcdefg");
+			Log.d(TAG, "intent内369容uri=" + intent.toUri(0));
 			Intent aIntent = new Intent();
 			aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			aIntent.setClass(context, cordovaExample.class);
-			String title = intent
-					.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
+			aIntent.setClass(context, NotificationDestiny.class);
+			String title = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_TITLE);
 			aIntent.putExtra(PushConstants.EXTRA_NOTIFICATION_TITLE, title);
-			String content = intent
-					.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
+			String content = intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
 			aIntent.putExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT, content);
 
 			context.startActivity(aIntent);

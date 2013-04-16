@@ -74,8 +74,8 @@
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
                 <!-- receiver bind .setTags... return results -->
                 <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
-                <!-- custom 
-                <action android:name="com.baudu.android.pushservice.action.notification.CLICK" /> -->
+                <!-- custom -->
+                <action android:name="com.baudu.android.pushservice.action.notification.CLICK" /> 
             </intent-filter>
             
         </receiver>
@@ -87,6 +87,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
                 <action android:name="com.baidu.android.pushservice.action.notification.SHOW"/> 
+                <action android:name="com.baidu.android.pushservice.action.media.CLICK"/>
             </intent-filter>
         </receiver>
         
@@ -122,7 +123,13 @@
 			android:launchMode="singleTask" > 
 		</activity> 
 		--> 
-        
+        <activity android:name="com.baidu.push.example.NotificationDestiny"></activity>
+        <receiver android:name="com.baidu.push.example.HandleClick">
+             <intent-filter>
+                <!-- custom -->
+                <action android:name="com.baudu.android.pushservice.action.notification.CLICK" /> 
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"/>

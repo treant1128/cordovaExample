@@ -42,6 +42,19 @@ public class cordovaExample extends DroidGap
 //				PushConstants.LOGIN_TYPE_API_KEY, Utils.getMetaValue(cordovaExample.this, "api_key"));
         
 //        initNotification();
+        
+        
+        
+        
+        
+//        CustomPushNotificationBuilder cBuilder = new CustomPushNotificationBuilder(layoutId,   
+//        layoutIconId, layoutTitleId, layoutTextId); 
+//        cBuilder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  
+//        cBuilder.setNotificationDefaults(Notification.DEFAULT_SOUND  | 
+//        Notification.DEFAULT_VIBRATE); 
+//        cBuilder.setStatusbarIcon(statusbarIconId); 
+//        cBuilder.setLayoutDrawable(notificationIconId); 
+//        PushManager.setNotificationBuilder(this, notificationId, cBuilder); 
     }
     
 //    private void initNotification(){
