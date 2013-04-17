@@ -29,6 +29,9 @@
     <!-- <access origin="https://example.com" subdomains="true" /> such as above, but including subdomains, such as www -->
     <access origin=".*"/>
 
+    
+    <access origin="http://www.baidu.com"/>
+    
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src="index.html" />
 
@@ -56,5 +59,6 @@
     <plugin name="Globalization" value="org.apache.cordova.Globalization"/>
     <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser"/>
 </plugins>
+
 </cordova>
 
