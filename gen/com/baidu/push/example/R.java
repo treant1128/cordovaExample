@@ -32,8 +32,7 @@ public final class R {
         public static final int bpush_progress_text=0x7f060003;
         public static final int bpush_progress_title=0x7f060002;
         public static final int bpush_type_listview=0x7f060007;
-        public static final int title=0x7f06000c;
-        public static final int webView=0x7f06000d;
+        public static final int webView=0x7f06000c;
     }
     public static final class layout {
         public static final int bpush_download_progress=0x7f030000;

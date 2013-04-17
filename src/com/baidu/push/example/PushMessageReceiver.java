@@ -88,7 +88,7 @@ public class PushMessageReceiver extends BroadcastReceiver {
 		} 
 		else if (intent.getAction().equals(
 				PushConstants.ACTION_RECEIVER_NOTIFICATION_CLICK)) {
-			Log.d(TAG, "336699" + "abcdefg");
+
 			Log.d(TAG, "intentÄÚ369ÈÝuri=" + intent.toUri(0));
 			Intent aIntent = new Intent();
 			aIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

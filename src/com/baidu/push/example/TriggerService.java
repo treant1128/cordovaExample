@@ -30,7 +30,7 @@ public class TriggerService extends IntentService {
 				PushConstants.EXTRA_NOTIFICATION_CONTENT);
 		
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				TriggerService.this).setSmallIcon(R.drawable.dota_40l)
+				TriggerService.this).setSmallIcon(R.drawable.icon)
 				.setContentTitle(title).setContentText(content);
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(TriggerService.this,

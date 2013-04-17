@@ -43,7 +43,8 @@ public class cordovaExample extends DroidGap
         
 //        initNotification();
         
-        
+        super.appView.getSettings().setJavaScriptEnabled(true);
+        super.appView.addJavascriptInterface(this, "MyCls");
         
         
         
