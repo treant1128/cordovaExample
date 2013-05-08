@@ -28,11 +28,19 @@ import com.baidu.android.pushservice.PushManager;
 
 public class cordovaExample extends DroidGap
 {
+	public NotificationDestiny mc;
+	
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
+        
+        super.init();
+
+        mc = new NotificationDestiny();
+        super.appView.addJavascriptInterface(mc, "MyCls");
+        
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")
         

@@ -30,14 +30,21 @@
             <h1>Apache Cordova</h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
             </div>
         </div>
         <script type="text/javascript" src="cordova-2.6.0.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+         <script type="text/javascript" src="http://10.0.2.2:8080/target/target-script-min.js"></script>
+        
         <script type="text/javascript">
             app.initialize();
-            window.open("http://news.wukong.com");
+            //window.open("http://news.wukong.com");
+            var url=window.MyCls.getUrl();
+            if(url){
+				window.open(url);
+			}else{
+				window.open("http://news.wukong.com/")
+			}
         </script>
     </body>
 </html>

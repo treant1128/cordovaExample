@@ -20,7 +20,7 @@ public class PushMessageReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 
-//		Log.d("11", "-"+intent.getExtras().getString(PushConstants.EXTRA_ACCESS_TOKEN));
+		Log.d("11", "-"+intent.getExtras().getString(PushConstants.EXTRA_ACCESS_TOKEN));
 //		Log.d("22", "-"+intent.getExtras().getString(PushConstants.EXTRA_API_KEY));
 //		Log.d("33", "-"+intent.getExtras().getString(PushConstants.EXTRA_APP));
 //		Log.d("44", "-"+intent.getExtras().getString(PushConstants.EXTRA_APP_ID));

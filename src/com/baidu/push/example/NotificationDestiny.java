@@ -1,5 +1,6 @@
 package com.baidu.push.example;
 
+import org.apache.cordova.Config;
 import org.apache.cordova.DroidGap;
 
 import android.annotation.SuppressLint;
@@ -10,16 +11,28 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+<<<<<<< HEAD
 import android.view.KeyEvent;
 import android.webkit.WebChromeClient;
+=======
+import android.webkit.JavascriptInterface;
+>>>>>>> ok
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.baidu.android.pushservice.PushConstants;
 
 public class NotificationDestiny extends DroidGap {
+<<<<<<< HEAD
 	private WebView wv;
 	private ProgressDialog pd;
 	private Handler handler;
+=======
+//	private TextView title=null;
+//	private WebView webView=null;
+	public static String nUrl;
+	public NotificationDestiny mc;
+	
+>>>>>>> ok
 	@Override
 	public void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,6 +44,7 @@ public class NotificationDestiny extends DroidGap {
 		String url=intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
 		
 		Log.i("Ìâ±ê",t);Log.i("ÈÝÄÚ",url);
+<<<<<<< HEAD
 		setTitle(t);
 		loadurl(wv,url);
         handler=new Handler(){
@@ -121,4 +135,29 @@ public class NotificationDestiny extends DroidGap {
         	}
         }.start();
     }
+=======
+		
+//		title.setText(t);
+//		webView.loadUrl(url);
+		nUrl=url;
+		
+        super.init();
+        mc = new NotificationDestiny();
+        super.appView.addJavascriptInterface(mc, "MyCls");
+		super.loadUrl(Config.getStartUrl());
+	};
+	
+	 @JavascriptInterface 
+	 public String getUrl(){
+		 //String url = "http://www.baidu.com/";
+	     return nUrl;
+	 }
+	private String parseURL(String content){
+		if(content.matches("^http[s]?:\\/\\/([\\w-]+\\.)+[\\w-]+([\\w-./?%&=]*)?$")){
+			return content;
+		}else{
+			return "http://news.wukong.com";
+		}
+	}
+>>>>>>> ok
 }

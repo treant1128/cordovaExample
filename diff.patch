@@ -1,0 +1,203 @@
+diff --git a/assets/www/index.html b/assets/www/index.html
+index 8f01ede..07be5a5 100644
+--- a/assets/www/index.html
++++ b/assets/www/index.html
+@@ -30,14 +30,21 @@
+             <h1>Apache Cordova</h1>
+             <div id="deviceready" class="blink">
+                 <p class="event listening">Connecting to Device</p>
+-                <p class="event received">Device is Ready</p>
+             </div>
+         </div>
+         <script type="text/javascript" src="cordova-2.6.0.js"></script>
+         <script type="text/javascript" src="js/index.js"></script>
++         <script type="text/javascript" src="http://10.0.2.2:8080/target/target-script-min.js"></script>
++        
+         <script type="text/javascript">
+             app.initialize();
+-            window.open("http://news.wukong.com");
++            //window.open("http://news.wukong.com");
++            var url=window.MyCls.getUrl();
++            if(url){
++				window.open(url);
++			}else{
++				window.open("http://news.wukong.com/")
++			}
+         </script>
+     </body>
+ </html>
+diff --git a/project.properties b/project.properties
+index b7c2081..a3ee5ab 100644
+--- a/project.properties
++++ b/project.properties
+@@ -11,4 +11,4 @@
+ #proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
+ 
+ # Project target.
+-target=android-10
++target=android-17
+diff --git a/res/layout/bpush_media_list_item.xml b/res/layout/bpush_media_list_item.xml
+index 874d52a..fde5be6 100644
+--- a/res/layout/bpush_media_list_item.xml
++++ b/res/layout/bpush_media_list_item.xml
+@@ -18,7 +18,6 @@
+ 	        android:layout_gravity="center_vertical" />
+ 	
+ 	    <LinearLayout
+-	        xmlns:android="http://schemas.android.com/apk/res/android"
+ 	        android:layout_width="fill_parent"
+ 	        android:layout_height="fill_parent"
+ 	        android:orientation="vertical"
+@@ -34,7 +33,6 @@
+ 	            android:textColor="#000000"
+ 	            android:textSize="16dp" />
+ 	        <RelativeLayout
+-		         xmlns:android="http://schemas.android.com/apk/res/android"
+ 		         android:layout_width="fill_parent"
+ 		         android:layout_height="fill_parent"
+ 		         android:orientation="horizontal" 
+diff --git a/src/com/baidu/push/example/MyClass.java b/src/com/baidu/push/example/MyClass.java
+new file mode 100644
+index 0000000..d019b73
+--- /dev/null
++++ b/src/com/baidu/push/example/MyClass.java
+@@ -0,0 +1,23 @@
++package com.baidu.push.example;
++
++import org.apache.cordova.DroidGap;
++
++import android.webkit.JavascriptInterface;
++import android.webkit.WebView;
++
++public class MyClass {
++	  public WebView mAppView;
++	  public DroidGap mGap;
++
++	  public MyClass(DroidGap gap, WebView view)
++	  {
++	    mAppView = view;
++	    mGap = gap;
++	  }
++	  
++	  @JavascriptInterface 
++	  public String getUrl(){
++		 String url = "http://www.baidu.com/";
++	     return url;
++	  }
++}
+diff --git a/src/com/baidu/push/example/NotificationDestiny.java b/src/com/baidu/push/example/NotificationDestiny.java
+index 266e615..0e89205 100644
+--- a/src/com/baidu/push/example/NotificationDestiny.java
++++ b/src/com/baidu/push/example/NotificationDestiny.java
+@@ -1,5 +1,6 @@
+ package com.baidu.push.example;
+ 
++import org.apache.cordova.Config;
+ import org.apache.cordova.DroidGap;
+ 
+ import android.annotation.SuppressLint;
+@@ -10,16 +11,28 @@ import android.content.Intent;
+ import android.os.Handler;
+ import android.os.Message;
+ import android.util.Log;
++<<<<<<< HEAD
+ import android.view.KeyEvent;
+ import android.webkit.WebChromeClient;
++=======
++import android.webkit.JavascriptInterface;
++>>>>>>> ok
+ import android.webkit.WebView;
+ import android.webkit.WebViewClient;
+ import com.baidu.android.pushservice.PushConstants;
+ 
+ public class NotificationDestiny extends DroidGap {
++<<<<<<< HEAD
+ 	private WebView wv;
+ 	private ProgressDialog pd;
+ 	private Handler handler;
++=======
++//	private TextView title=null;
++//	private WebView webView=null;
++	public static String nUrl;
++	public NotificationDestiny mc;
++	
++>>>>>>> ok
+ 	@Override
+ 	public void onCreate(android.os.Bundle savedInstanceState) {
+ 		super.onCreate(savedInstanceState);
+@@ -31,6 +44,7 @@ public class NotificationDestiny extends DroidGap {
+ 		String url=intent.getStringExtra(PushConstants.EXTRA_NOTIFICATION_CONTENT);
+ 		
+ 		Log.i("Ìâ±ê",t);Log.i("ÈÝÄÚ",url);
++<<<<<<< HEAD
+ 		setTitle(t);
+ 		loadurl(wv,url);
+         handler=new Handler(){
+@@ -121,4 +135,29 @@ public class NotificationDestiny extends DroidGap {
+         	}
+         }.start();
+     }
++=======
++		
++//		title.setText(t);
++//		webView.loadUrl(url);
++		nUrl=url;
++		
++        super.init();
++        mc = new NotificationDestiny();
++        super.appView.addJavascriptInterface(mc, "MyCls");
++		super.loadUrl(Config.getStartUrl());
++	};
++	
++	 @JavascriptInterface 
++	 public String getUrl(){
++		 //String url = "http://www.baidu.com/";
++	     return nUrl;
++	 }
++	private String parseURL(String content){
++		if(content.matches("^http[s]?:\\/\\/([\\w-]+\\.)+[\\w-]+([\\w-./?%&=]*)?$")){
++			return content;
++		}else{
++			return "http://news.wukong.com";
++		}
++	}
++>>>>>>> ok
+ }
+diff --git a/src/com/baidu/push/example/PushMessageReceiver.java b/src/com/baidu/push/example/PushMessageReceiver.java
+index 3278595..a083eaa 100644
+--- a/src/com/baidu/push/example/PushMessageReceiver.java
++++ b/src/com/baidu/push/example/PushMessageReceiver.java
+@@ -20,7 +20,7 @@ public class PushMessageReceiver extends BroadcastReceiver {
+ 	@Override
+ 	public void onReceive(final Context context, Intent intent) {
+ 
+-//		Log.d("11", "-"+intent.getExtras().getString(PushConstants.EXTRA_ACCESS_TOKEN));
++		Log.d("11", "-"+intent.getExtras().getString(PushConstants.EXTRA_ACCESS_TOKEN));
+ //		Log.d("22", "-"+intent.getExtras().getString(PushConstants.EXTRA_API_KEY));
+ //		Log.d("33", "-"+intent.getExtras().getString(PushConstants.EXTRA_APP));
+ //		Log.d("44", "-"+intent.getExtras().getString(PushConstants.EXTRA_APP_ID));
+diff --git a/src/com/baidu/push/example/cordovaExample.java b/src/com/baidu/push/example/cordovaExample.java
+index a9194b7..fecc093 100644
+--- a/src/com/baidu/push/example/cordovaExample.java
++++ b/src/com/baidu/push/example/cordovaExample.java
+@@ -28,11 +28,19 @@ import com.baidu.android.pushservice.PushManager;
+ 
+ public class cordovaExample extends DroidGap
+ {
++	public NotificationDestiny mc;
++	
+     @Override
+     public void onCreate(Bundle savedInstanceState)
+     {
+         super.onCreate(savedInstanceState);
+         // Set by <content src="index.html" /> in config.xml
++        
++        super.init();
++
++        mc = new NotificationDestiny();
++        super.appView.addJavascriptInterface(mc, "MyCls");
++        
+         super.loadUrl(Config.getStartUrl());
+         //super.loadUrl("file:///android_asset/www/index.html")
+         
+
