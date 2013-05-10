@@ -73,10 +73,12 @@ public class PushMessageReceiver extends BroadcastReceiver {
 			//用户在此自定义处理消息,以下代码为demo界面展示用
 			String message = intent.getExtras().getString(
 					PushConstants.EXTRA_PUSH_MESSAGE_STRING);
-			Log.d("信息内容", message);
+			
 			String title=message.substring(0, message.indexOf(" "));
 			String content=message.substring(message.lastIndexOf(" "));
-
+			
+			Log.d("广播接收到的", "title="+title+", content="+content);
+			
 			Intent i = new Intent();  
 		    //在新的任务中启动Activity  
 		    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  

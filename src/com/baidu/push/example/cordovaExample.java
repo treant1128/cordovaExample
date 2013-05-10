@@ -19,16 +19,21 @@
 
 package com.baidu.push.example;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
+
 import org.apache.cordova.*;
 
-import com.baidu.android.pushservice.CustomPushNotificationBuilder;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 
 public class cordovaExample extends DroidGap
 {
-    @Override
+    @SuppressLint("SetJavaScriptEnabled")
+	@Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -44,30 +49,37 @@ public class cordovaExample extends DroidGap
 //        initNotification();
         
         super.appView.getSettings().setJavaScriptEnabled(true);
-        super.appView.addJavascriptInterface(this, "MyCls");
+        super.appView.addJavascriptInterface(this, "MyCls");     
         
-        
-        
-//        CustomPushNotificationBuilder cBuilder = new CustomPushNotificationBuilder(layoutId,   
-//        layoutIconId, layoutTitleId, layoutTextId); 
-//        cBuilder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  
-//        cBuilder.setNotificationDefaults(Notification.DEFAULT_SOUND  | 
-//        Notification.DEFAULT_VIBRATE); 
-//        cBuilder.setStatusbarIcon(statusbarIconId); 
-//        cBuilder.setLayoutDrawable(notificationIconId); 
-//        PushManager.setNotificationBuilder(this, notificationId, cBuilder); 
     }
     
-//    private void initNotification(){
-//    	 
-//    	 
-//    	CustomPushNotificationBuilder cBuilder = new CustomPushNotificationBuilder(R.layout.bpush_download_progress,  
-//    			R.drawable.ic_launcher, R.string.app_name, R.string.app_name); 
-//    	cBuilder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);  
-//    	cBuilder.setNotificationDefaults(Notification.DEFAULT_SOUND  | Notification.DEFAULT_VIBRATE); 
-//    	cBuilder.setStatusbarIcon(R.drawable.ic_launcher); 
-//    	cBuilder.setLayoutDrawable(R.drawable.ic_launcher); 
-//    	PushManager.setNotificationBuilder(this, notificationId, cBuilder); 
-//    }
+    public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
+    	if(keyCode == KeyEvent.KEYCODE_BACK){
+	      	ConfirmExit();//按了返回键，但已经不能返回，则执行退出确认
+	       	return true; 
+        }
+		return false;   
+    };
+    
+    public void ConfirmExit(){//退出确认
+    	AlertDialog.Builder ad=new AlertDialog.Builder(cordovaExample.this);
+    	ad.setTitle("退出");
+    	ad.setMessage("是否退出?");
+    	ad.setPositiveButton("是", new DialogInterface.OnClickListener() {//退出按钮
+			@Override
+			public void onClick(DialogInterface dialog, int i) {
+				// TODO Auto-generated method stub
+				cordovaExample.this.finish();//关闭activity
+ 
+			}
+		});
+    	ad.setNegativeButton("否",new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int i) {
+				//不退出不用执行任何操作
+			}
+		});
+    	ad.show();//显示对话框
+    }
 }
 
