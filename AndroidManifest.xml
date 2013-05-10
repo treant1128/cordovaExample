@@ -125,8 +125,9 @@
 		</activity> 
 		--> 
 		<service android:name="com.baidu.push.example.TriggerService"></service>
-        <activity android:name="com.baidu.push.example.NotificationDestiny"></activity>
-        
+        <activity android:name="com.baidu.push.example.NotificationDestiny"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.baidu.push.example.CopyOfcordovaExample" />
     </application>
 
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"/>
